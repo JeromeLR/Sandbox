@@ -1,0 +1,60 @@
+﻿@*@model IEnumerable<TO.TOLigneCommande>*@
+@model _1_AspMvc.Models.LigneCommandesClient
+
+@{
+    ViewBag.Title = "Facture";
+}
+
+<h2>Facture @Model.Client.Prenom @Model.Client.Nom</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { idClient = Model.Client.Identifiant, idFacture = Model.IdFacture })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Identifiant
+        </th>
+        <th>
+            Article
+        </th>
+       
+        <th>
+            Prix unitaire
+        </th>
+        <th>
+            Quantité
+        </th>
+        <th>
+            Prix
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.ListCommande) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Identifiant)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.toArticle.Nom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.toArticle.Prix)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantite)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.Prix)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new {  id=item.Identifiant, idf=Model.IdFacture  }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Identifiant, idf = Model.IdFacture }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Identifiant, idf = Model.IdFacture })
+        </td>
+    </tr>
+}
+
+</table>

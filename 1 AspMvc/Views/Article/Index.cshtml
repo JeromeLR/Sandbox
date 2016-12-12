@@ -1,0 +1,59 @@
+﻿@model IEnumerable<TO.TOArticle>
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>View</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Identifiant)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nom)
+        </th>
+      
+        <th>
+            @Html.DisplayNameFor(model => model.Prix)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stock)
+        </th>
+        <th>
+            Catégorie
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Identifiant)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nom)
+        </td>
+      
+        <td>
+            @Html.DisplayFor(modelItem => item.Prix)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stock)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.toCategorie.Nom)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Identifiant }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Identifiant }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Identifiant }) 
+        </td>
+    </tr>
+}
+
+</table>

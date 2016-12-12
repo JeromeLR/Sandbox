@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Database1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Article">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar(max)" />
+          <Property Name="Prix" Type="int" />
+          <Property Name="Stock" Type="int" />
+          <Property Name="IdCategorie" Type="int" />
+        </EntityType>
+        <EntityType Name="Categorie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="50" />
+          <Property Name="Age" Type="int" />
+          <Property Name="DateInscription" Type="datetime" />
+          <Property Name="IdTypeSouscription" Type="int" />
+          <Property Name="Prenom" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Facture">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="50" />
+          <Property Name="IdClient" Type="int" />
+          <Property Name="Montant" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="LigneCommande">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArticleId" Type="int" />
+          <Property Name="Quantite" Type="int" />
+          <Property Name="Prix" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IdFacture" Type="int" />
+        </EntityType>
+        <EntityType Name="TypeSouscription">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="50" />
+          <Property Name="Code" Type="int" />
+          <Property Name="Promo" Type="int" />
+        </EntityType>
+        <Association Name="FK_Categorie">
+          <End Role="Categorie" Type="Self.Categorie" Multiplicity="0..1" />
+          <End Role="Article" Type="Self.Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Article">
+              <PropertyRef Name="IdCategorie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Facture" Type="Self.Facture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Facture">
+              <PropertyRef Name="IdClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LigneCommande_ToTable_1">
+          <End Role="Article" Type="Self.Article" Multiplicity="0..1" />
+          <End Role="LigneCommande" Type="Self.LigneCommande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Article">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LigneCommande">
+              <PropertyRef Name="ArticleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LigneCommande_ToTable_2">
+          <End Role="Facture" Type="Self.Facture" Multiplicity="0..1" />
+          <End Role="LigneCommande" Type="Self.LigneCommande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facture">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LigneCommande">
+              <PropertyRef Name="IdFacture" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Type">
+          <End Role="TypeSouscription" Type="Self.TypeSouscription" Multiplicity="0..1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeSouscription">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="IdTypeSouscription" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1ModelStoreContainer">
+          <EntitySet Name="Article" EntityType="Self.Article" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categorie" EntityType="Self.Categorie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Facture" EntityType="Self.Facture" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LigneCommande" EntityType="Self.LigneCommande" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeSouscription" EntityType="Self.TypeSouscription" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Categorie" Association="Self.FK_Categorie">
+            <End Role="Categorie" EntitySet="Categorie" />
+            <End Role="Article" EntitySet="Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Client" Association="Self.FK_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Facture" EntitySet="Facture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LigneCommande_ToTable_1" Association="Self.FK_LigneCommande_ToTable_1">
+            <End Role="Article" EntitySet="Article" />
+            <End Role="LigneCommande" EntitySet="LigneCommande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LigneCommande_ToTable_2" Association="Self.FK_LigneCommande_ToTable_2">
+            <End Role="Facture" EntitySet="Facture" />
+            <End Role="LigneCommande" EntitySet="LigneCommande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Type" Association="Self.FK_Type">
+            <End Role="TypeSouscription" EntitySet="TypeSouscription" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Article">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Prix" Type="Int32" />
+          <Property Name="Stock" Type="Int32" />
+          <Property Name="IdCategorie" Type="Int32" />
+          <NavigationProperty Name="Categorie" Relationship="Self.FK_Categorie" FromRole="Article" ToRole="Categorie" />
+          <NavigationProperty Name="LigneCommande" Relationship="Self.FK_LigneCommande_ToTable_1" FromRole="Article" ToRole="LigneCommande" />
+        </EntityType>
+        <EntityType Name="Categorie">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Article" Relationship="Self.FK_Categorie" FromRole="Categorie" ToRole="Article" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="DateInscription" Type="DateTime" Precision="3" />
+          <Property Name="IdTypeSouscription" Type="Int32" />
+          <Property Name="Prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Facture" Relationship="Self.FK_Client" FromRole="Client" ToRole="Facture" />
+          <NavigationProperty Name="TypeSouscription" Relationship="Self.FK_Type" FromRole="Client" ToRole="TypeSouscription" />
+        </EntityType>
+        <EntityType Name="Facture">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdClient" Type="Int32" />
+          <Property Name="Montant" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Client" FromRole="Facture" ToRole="Client" />
+          <NavigationProperty Name="LigneCommande" Relationship="Self.FK_LigneCommande_ToTable_2" FromRole="Facture" ToRole="LigneCommande" />
+        </EntityType>
+        <EntityType Name="LigneCommande">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArticleId" Type="Int32" />
+          <Property Name="Quantite" Type="Int32" />
+          <Property Name="Prix" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IdFacture" Type="Int32" />
+          <NavigationProperty Name="Article" Relationship="Self.FK_LigneCommande_ToTable_1" FromRole="LigneCommande" ToRole="Article" />
+          <NavigationProperty Name="Facture" Relationship="Self.FK_LigneCommande_ToTable_2" FromRole="LigneCommande" ToRole="Facture" />
+        </EntityType>
+        <EntityType Name="TypeSouscription">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="Int32" />
+          <Property Name="Promo" Type="Int32" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Type" FromRole="TypeSouscription" ToRole="Client" />
+        </EntityType>
+        <Association Name="FK_Categorie">
+          <End Role="Categorie" Type="Self.Categorie" Multiplicity="0..1" />
+          <End Role="Article" Type="Self.Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorie">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Article">
+              <PropertyRef Name="IdCategorie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LigneCommande_ToTable_1">
+          <End Role="Article" Type="Self.Article" Multiplicity="0..1" />
+          <End Role="LigneCommande" Type="Self.LigneCommande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Article">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LigneCommande">
+              <PropertyRef Name="ArticleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Facture" Type="Self.Facture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Facture">
+              <PropertyRef Name="IdClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Type">
+          <End Role="TypeSouscription" Type="Self.TypeSouscription" Multiplicity="0..1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeSouscription">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="IdTypeSouscription" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LigneCommande_ToTable_2">
+          <End Role="Facture" Type="Self.Facture" Multiplicity="0..1" />
+          <End Role="LigneCommande" Type="Self.LigneCommande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facture">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LigneCommande">
+              <PropertyRef Name="IdFacture" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="modelEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Article" EntityType="Self.Article" />
+          <EntitySet Name="Categorie" EntityType="Self.Categorie" />
+          <EntitySet Name="Client" EntityType="Self.Client" />
+          <EntitySet Name="Facture" EntityType="Self.Facture" />
+          <EntitySet Name="LigneCommande" EntityType="Self.LigneCommande" />
+          <EntitySet Name="TypeSouscription" EntityType="Self.TypeSouscription" />
+          <AssociationSet Name="FK_Categorie" Association="Self.FK_Categorie">
+            <End Role="Categorie" EntitySet="Categorie" />
+            <End Role="Article" EntitySet="Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LigneCommande_ToTable_1" Association="Self.FK_LigneCommande_ToTable_1">
+            <End Role="Article" EntitySet="Article" />
+            <End Role="LigneCommande" EntitySet="LigneCommande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Client" Association="Self.FK_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Facture" EntitySet="Facture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Type" Association="Self.FK_Type">
+            <End Role="TypeSouscription" EntitySet="TypeSouscription" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LigneCommande_ToTable_2" Association="Self.FK_LigneCommande_ToTable_2">
+            <End Role="Facture" EntitySet="Facture" />
+            <End Role="LigneCommande" EntitySet="LigneCommande" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Database1ModelStoreContainer" CdmEntityContainer="modelEntities1">
+          <EntitySetMapping Name="Article">
+            <EntityTypeMapping TypeName="Database1Model.Article">
+              <MappingFragment StoreEntitySet="Article">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Prix" ColumnName="Prix" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="IdCategorie" ColumnName="IdCategorie" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categorie">
+            <EntityTypeMapping TypeName="Database1Model.Categorie">
+              <MappingFragment StoreEntitySet="Categorie">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Client">
+            <EntityTypeMapping TypeName="Database1Model.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="DateInscription" ColumnName="DateInscription" />
+                <ScalarProperty Name="IdTypeSouscription" ColumnName="IdTypeSouscription" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Facture">
+            <EntityTypeMapping TypeName="Database1Model.Facture">
+              <MappingFragment StoreEntitySet="Facture">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="IdClient" ColumnName="IdClient" />
+                <ScalarProperty Name="Montant" ColumnName="Montant" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LigneCommande">
+            <EntityTypeMapping TypeName="Database1Model.LigneCommande">
+              <MappingFragment StoreEntitySet="LigneCommande">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ArticleId" ColumnName="ArticleId" />
+                <ScalarProperty Name="Quantite" ColumnName="Quantite" />
+                <ScalarProperty Name="Prix" ColumnName="Prix" />
+                <ScalarProperty Name="IdFacture" ColumnName="IdFacture" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeSouscription">
+            <EntityTypeMapping TypeName="Database1Model.TypeSouscription">
+              <MappingFragment StoreEntitySet="TypeSouscription">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Promo" ColumnName="Promo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

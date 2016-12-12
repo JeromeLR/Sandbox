@@ -1,0 +1,60 @@
+﻿@model IEnumerable<TO.TOLigneCommande>
+
+@*@model List<_1_AspMvc.Models.TOLigneCommande>*@
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Identifiant
+        </th>
+        <th>
+            Article
+        </th>
+        <th>
+            Quantité
+        </th>
+        @*<th>
+            Client
+        </th>*@
+        <th>
+            Prix
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Identifiant)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.toArticle.Nom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantite)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.toClient.Prenom) 
+            @Html.DisplayFor(modelItem => item.toClient.Nom)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.Prix)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new {  id=item.Identifiant  }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Identifiant }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Identifiant })
+        </td>
+    </tr>
+}
+
+</table>

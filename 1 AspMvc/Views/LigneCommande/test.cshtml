@@ -1,0 +1,13 @@
+﻿@*@model _1_AspMvc.Models.TOLigneCommande*@
+
+@model List<TO.TOClient>
+
+
+<h2>Index</h2>
+
+<select name="myFormInputName">
+    @foreach (var c in Model)
+    {
+        <option value="@(c.Identifiant)">@(c.Nom)</option>
+    }
+</select>
