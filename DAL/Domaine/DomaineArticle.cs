@@ -7,13 +7,27 @@ using DAL.Entities;
 
 namespace DAL.Domaine
 {
-
+    public interface IDomaineArticle
+    {
+        List<Article> GetAllArticles();
+        Article GetArticleByNom(string nom);
+        Article GetArticleById(int id);
+        Article Add(Article a);
+        bool Del(int id);
+        void Update(Article article);
+    }
 
     /// <summary>
     /// Domaine Client
     /// </summary>
-    public class DomaineArticle
+    public class DomaineArticle : IDomaineArticle
     {
+        //Unity
+        //private IDomaineArticle domaineArticle;
+        //public DomaineArticle(IDomaineArticle DomaineArticle)
+        //{
+        //    this.domaineArticle = DomaineArticle;
+        //}
         /// <summary>
         /// Retourne tous les clients
         /// </summary>

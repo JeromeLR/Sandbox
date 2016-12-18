@@ -8,11 +8,18 @@ using DAL.Entities;
 namespace DAL.Domaine
 {
 
-
+    public interface IDomaineFacture
+    {
+        List<Facture> GetAllFacture();
+        Facture GetFactureById(int id);
+        void Update(Facture f);
+        Facture Add(Facture f);
+        bool Del(int id);
+    }
     /// <summary>
     /// Domaine Client
     /// </summary>
-    public class DomaineFacture
+    public class DomaineFacture :IDomaineFacture
     {
         /// <summary>
         /// Retourne tous les clients

@@ -1,4 +1,5 @@
 ﻿using BS;
+using BS.BusinessServices;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -8,10 +9,23 @@ using TO;
 namespace mvctest.Controllers
 {
     public class ArticleController : Controller
-    {            
-        
+    {
+        //Unity
+        private IBSArticle BSArticle;
+        public ArticleController(IBSArticle BSArticle)
+        {
+            this.BSArticle = BSArticle;
+        }
+
+        //bs
+        //private BusinessService bs
+        //{
+        //    get { return bs; }
+        //    set { bs = BusinessService.Instance; }
+        //}
+
         // GET: 
-        public ActionResult Index()
+        public ViewResult Index()
         {
             var bs = BusinessService.Instance;
             var articles = bs.Article.GetAllArticles();

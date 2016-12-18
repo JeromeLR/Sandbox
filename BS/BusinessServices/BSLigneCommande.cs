@@ -17,9 +17,6 @@ namespace BS.BusinessServices
             Service = bs;
         }    
 
-        
-
-
-
+        // déplacer vers BSFacture
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TO;
 using BS.BSExtension;
+using DAL.Entities;
 
 namespace BS.BusinessServices
 {
@@ -65,6 +66,18 @@ namespace BS.BusinessServices
             Update(f);
         }
 
+        public int MAjStockProduit(int idProduit, int variation)
+        {
+            //recup totaux des lignes factures
+            Article a = Service.DomaineArticle.GetArticleById(idProduit);
+            a.Stock += variation;
+
+            //maj staock
+            Service.DomaineArticle.Update(a);
+
+            return (int)a.Stock;
+        }
+
 
 
         /* Lignes commande */
@@ -90,34 +103,59 @@ namespace BS.BusinessServices
 
         public void Update(TOLigneCommande toLC)
         {
-            //recup prix articlepar id
-            var article = Service.DomaineArticle.GetArticleById(toLC.toArticle.Identifiant);
+            // prix commande : recup prix article par id => prix
+            var idArticle = toLC.toArticle.Identifiant;
+            var article = Service.DomaineArticle.GetArticleById(idArticle);
             toLC.Prix = toLC.Quantite * article.Prix;
-            
 
+            // maj stock du produit
+            int variation = (int)(article.Stock - toLC.Quantite);            
+            toLC.toArticle.Stock = MAjStockProduit(idArticle, variation);
+
+            // maj commande
             Service.DomaineLigneCommande.Update(toLC.ToEntity());
+
+            // recalcul facture
             MajMontantFacture((int)toLC.IdFacture);
         }
         public TOLigneCommande Add(TOLigneCommande toLC)
         {
-            //recup prix articlepar id
-            var article = Service.DomaineArticle.GetArticleById(toLC.toArticle.Identifiant);
+            // Montant facture : recup prix article par id
+            var idArticle = toLC.toArticle.Identifiant;
+            var article = Service.DomaineArticle.GetArticleById(idArticle);
             toLC.Prix = toLC.Quantite * article.Prix;
 
+            // Maj Stock produit
+            int variation = (int)(article.Stock - toLC.Quantite);
+            toLC.toArticle.Stock = MAjStockProduit(idArticle, variation);
 
+            // Ajout ligne commande
             var lc = Service.DomaineLigneCommande.Add(toLC.ToEntity());
+
+            // Maj montant facture
             MajMontantFacture((int)toLC.IdFacture);
             return lc.ToTransferObject();
             
         }
 
-        public bool Del(int id)
+        public bool Del(TOLigneCommande tolc)
         {
-            var lc = Service.DomaineLigneCommande.Del(id);
-            //todo : maj facture
+            // montant ligne de commande
+            var lc = Service.DomaineLigneCommande.GetLigneCommandeById(tolc.Identifiant);
+            var montantlc = lc.Prix;
+
+
+            var del = Service.DomaineLigneCommande.Del(tolc.Identifiant);
+            // Maj montantfacture
+
+            var f = Service.DomaineFacture.GetFactureById((int)lc.IdFacture);
+            f.Montant -= montantlc;
+            MajMontantFacture((int)lc.IdFacture);
 
             return true;
         }
 
+
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿@model TO.TOLigneCommande
+﻿@*@model TO.TOLigneCommande*@
+@model _1_AspMvc.Models.LigneCommandEdit
 
 @{
     ViewBag.Title = "Delete";
@@ -6,41 +7,44 @@
 
 <h2>Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Supprimer cette ligne de commande ?</h3>
 <div>
     <h4>TOLigneCommande</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Identifiant)
+            @Html.DisplayNameFor(model => model.lc.Identifiant)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Identifiant)
+            @Html.DisplayFor(model => model.lc.Identifiant)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Prix)
+            @Html.DisplayNameFor(model => model.lc.Prix)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Prix)
+            @Html.DisplayFor(model => model.lc.Prix)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Quantite)
+            @Html.DisplayNameFor(model => model.lc.Quantite)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Quantite)
+            @Html.DisplayFor(model => model.lc.Quantite)
         </dd>
 
     </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
-
+        @Html.HiddenFor(m => m.lc.Identifiant)
+        @Html.HiddenFor(m => m.idClient)
+        @Html.HiddenFor(m => m.idFacture)
         <div class="form-actions no-color">
+            
             <input type="submit" value="Delete" class="btn btn-default" /> |
             @Html.ActionLink("Back to List", "LigneCommandesClient")
         </div>

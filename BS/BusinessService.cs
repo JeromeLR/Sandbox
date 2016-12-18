@@ -7,15 +7,27 @@ using DAL.Domaine;
 using DAL;
 using BS.BusinessServices;
 
+
+// todo Question : appel d'un BS à partir d'un autre : passer par les domaines de la DAL ?
+// todo Factorisation des BS ?
+// todo MVC : bonne définitions des modèles ?
+
+
 namespace BS
 {
-    public class BusinessService
+    //unity
+    public interface IBusinessService
+    {
+        //private static object instanceVerrou = new object();
+    }
+
+    public class BusinessService : IBusinessService
     {
          #region Singleton
         /// <summary>
         /// Singleton
         /// </summary>
-        private static BusinessService _instance;
+        public static BusinessService _instance;
 
         /// <summary>
         /// Verrou du singleton _instance
@@ -43,21 +55,22 @@ namespace BS
 
         #endregion
 
-       
-        internal DomaineClient DomaineClient;
+                
+        public DomaineClient DomaineClient;
         public BSClient Client { get; private set; }
 
-        internal DomaineArticle DomaineArticle;
+        public DomaineArticle DomaineArticle;
         public BSArticle Article { get; private set; }
 
-        internal DomaineLigneCommande DomaineLigneCommande;
+        public DomaineLigneCommande DomaineLigneCommande;
         public BSLigneCommande LigneCommande { get; private set; }
 
-        internal DomaineFacture DomaineFacture;
+        public DomaineFacture DomaineFacture;
         public BSFacture Facture { get; private set; }
 
 
-        private BusinessService()
+        //unity : private=>public
+        public BusinessService()
         {
             DomaineClient = new DAL.Domaine.DomaineClient();
             Client = new BSClient(this);

@@ -7,12 +7,20 @@ using DAL.Entities;
 
 namespace DAL.Domaine
 {
- 
+    public interface IDomaineClient
+    {
+        List<Client> GetAllClients();
+        Client GetClientByNom(string nom);
+        Client GetClientById(int id);
+        Client Add(Client c);
+        bool Del(int id);
+        void Update(Client client);
+    }
 
     /// <summary>
     /// Domaine Client
     /// </summary>
-    public class DomaineClient
+    public class DomaineClient : IDomaineClient
     {
         /// <summary>
         /// Retourne tous les clients

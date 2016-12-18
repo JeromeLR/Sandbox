@@ -122,7 +122,7 @@ namespace mvctest.Controllers
             return RedirectToAction("listByIdFacture", new { idFacture = tolc.IdFacture, idClient = lce.idClient });
         }
 
-        // GET: Clients/Edit/5
+        // GET: lc/Edit/5
         public ActionResult Edit(int? id)
         {
             var bs = BusinessService.Instance;
@@ -211,29 +211,40 @@ namespace mvctest.Controllers
 
 
         // GET: Clients/Delete/5
-        public ActionResult Delete(int? id)
+        //public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
             var bs = BusinessService.Instance;
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            //if (lce.lc.Identifiant == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
             int idi = (int)id;
-            TOLigneCommande lc = bs.Facture.GetLigneCommandeById(idi);
-            if (lc == null)
+            TOLigneCommande tolc = bs.Facture.GetLigneCommandeById(idi);
+
+            
+
+            if (tolc == null)
             {
                 return HttpNotFound();
             }
-            return View(lc);
+
+            LigneCommandEdit lce = new LigneCommandEdit
+            {
+                lc = tolc,
+                idFacture = (int)tolc.IdFacture
+            };
+
+            return View(lce);
         }
 
         // POST: Clients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(LigneCommandEdit lce)
         {
             var bs = BusinessService.Instance;
-            bs.Facture.Del(id);
+            bs.Facture.Del(lce.lc);
             //return RedirectToAction("listByIdFacture");
             return RedirectToAction("Index", "Facture", new { area = "" });
         }

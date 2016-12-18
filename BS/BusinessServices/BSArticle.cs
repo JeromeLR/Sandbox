@@ -8,15 +8,24 @@ using BS.BSExtension;
 
 namespace BS.BusinessServices
 {
-    public class BSArticle
+    public interface IBSArticle
+    {
+        TOArticle GetArticleById(int id);
+        TOArticle GetArticleByNom(string nom);
+        List<TOArticle> GetAllArticles();
+        TOArticle Add(TOArticle toArticle);
+        bool Del(int id);
+        void Update(TOArticle toArticle);
+    }
+
+    public class BSArticle : IBSArticle
     {
         private BusinessService Service;
 
-        internal BSArticle(BusinessService bs)
+        public BSArticle(BusinessService bs)
         {
             Service = bs;
-        }
-            
+        }            
 
         public TOArticle GetArticleById(int id)
         {

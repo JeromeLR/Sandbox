@@ -7,12 +7,20 @@ using DAL.Entities;
 
 namespace DAL.Domaine
 {
-
+    public interface IDomaineLigneCommande
+    {
+        List<LigneCommande> GetAllLigneCommande();
+        List<LigneCommande> GetLigneCommandeByIdFacture(int idFacture);
+        LigneCommande GetLigneCommandeById(int id);
+        void Update(LigneCommande lc);
+        LigneCommande Add(LigneCommande lc);
+        bool Del(int id);
+    }
 
     /// <summary>
     /// Domaine Client
     /// </summary>
-    public class DomaineLigneCommande
+    public class DomaineLigneCommande :IDomaineLigneCommande
     {
         /// <summary>
         /// Retourne tous les clients
