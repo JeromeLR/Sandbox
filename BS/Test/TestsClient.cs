@@ -1,48 +1,42 @@
-﻿using BS.BusinessServices;
-using DAL.Domaine;
-using DAL.Entities;
-using Moq;
+﻿using DAL.Entities;
+using Effort.Provider;
 using NUnit.Framework;
 using System.Collections.Generic;
-using TO;
+using System.Linq;
 
 namespace BS.Test
 {
-    // probleme test BS car librairie
-
-    //using NUnit.Framework;
     [TestFixture]
-    public class NUnitArticleController
+    public class SuccessTests
     {
 
-        //[Test]
-        //public void testMoq()
-        //{
-        //    var moqArticleRepo = new Mock<IDomaineArticle>();
-        //    var moqBS = new Mock<BSArticle>();
+        [SetUp]
+        public void Setup()
+        {
+            EffortProviderConfiguration.RegisterProvider();
+        }
 
-        //    //init moq
-        //    var listArticles = new List<Article>();
-        //    listArticles.Add(new Article { Nom = "foo" });
-        //    listArticles.Add(new Article { Nom = "bar" });
-        //    listArticles.Add(new Article { Nom = "doe" });
-        //    moqArticleRepo.Setup(x => x.GetAllArticles()).Returns(() => listArticles);
+        private modelEntities1 CreateContext()
+        {
+            //var connectionString = ConfigurationManager.ConnectionStrings["Entities"].ConnectionString;
+            //var connection = Effort.EntityConnectionFactory.CreateTransient(connectionString);
+            //return new Entities(connection as DbConnection);
 
-        //    //BusinessService.Instance.Article.GetAllArticles();
+            var connection = Effort.EntityConnectionFactory.CreatePersistent("name=modelEntities1");
+            var context = new modelEntities1(connection);
+            return context;
+        }
 
-        //}
-
-        //[Test]
-        //public void testGetAllClient()
-        //{
-        //    var bs = BusinessService.Instance;
-
-        //    int nb;
-
-        //    nb = bs.Article.GetAllArticles().Count;
-
-        //    Assert.IsTrue(nb > 0);
-        //}
-
+        [Test]
+        public void Testing_Entity_Effort()
+        {
+            using (var context = CreateContext())
+            {
+                var article = context.Article.First();
+                Assert.IsNotNull(article);
+            }
+            
+        }
     }
+    
 }

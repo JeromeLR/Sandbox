@@ -15,8 +15,7 @@ namespace DAL.Entities
     
     public partial class modelEntities1 : DbContext
     {
-        public modelEntities1()
-            : base("name=modelEntities1")
+        public modelEntities1() : base("name=modelEntities1")
         {
         }
     
