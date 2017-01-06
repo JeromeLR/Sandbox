@@ -32,6 +32,16 @@ namespace BS.BusinessServices
             var article = Service.DomaineArticle.GetArticleById(id);
             return article.ToTransferObject();
         }
+
+
+        public TOArticle GetArticleById_testMoq(int id)
+        {
+            var article = Service.DomaineArticle.GetArticleById(id);
+            article.Nom = "nouveau nom!";
+            return article.ToTransferObject();
+        }
+
+
         public TOArticle GetArticleByNom(string nom)
         {
             var article = Service.DomaineArticle.GetArticleByNom(nom);

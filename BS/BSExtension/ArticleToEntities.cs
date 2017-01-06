@@ -22,15 +22,28 @@ namespace BS.BSExtension
                 return null;
             }
 
-            Article entity = new Article
+            Article entity = new Article();
+
+            if(toArticle.toCategorie != null)
             {
-                Id = toArticle.Identifiant,
-                Nom = toArticle.Nom,
-                IdCategorie = toArticle.toCategorie.Identifiant,
-                Prix=toArticle.Prix,
-                Stock=toArticle.Stock
+                entity.Id = toArticle.Identifiant;
+                entity.Nom = toArticle.Nom;
+                entity.IdCategorie = toArticle.toCategorie.Identifiant;
+                entity.Prix = toArticle.Prix;
+                entity.Stock = toArticle.Stock;
                     
-            };
+                
+            }
+
+            else
+            {
+                entity.Id = toArticle.Identifiant;
+                entity.Nom = toArticle.Nom;
+                entity.IdCategorie = 1;
+                entity.Prix = toArticle.Prix;
+                entity.Stock = toArticle.Stock;
+
+            }
             return entity;
         }
     }

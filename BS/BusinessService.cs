@@ -56,16 +56,16 @@ namespace BS
         #endregion
 
                 
-        public DomaineClient DomaineClient;
+        public IDomaineClient DomaineClient;
         public BSClient Client { get; private set; }
 
-        public DomaineArticle DomaineArticle;
+        public IDomaineArticle DomaineArticle;
         public BSArticle Article { get; private set; }
 
-        public DomaineLigneCommande DomaineLigneCommande;
+        public IDomaineLigneCommande DomaineLigneCommande;
         public BSLigneCommande LigneCommande { get; private set; }
 
-        public DomaineFacture DomaineFacture;
+        public IDomaineFacture DomaineFacture;
         public BSFacture Facture { get; private set; }
 
 

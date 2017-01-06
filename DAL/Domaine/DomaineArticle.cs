@@ -104,7 +104,7 @@ namespace DAL.Domaine
         {
             using (var db = new modelEntities1())
             {
-                var original = db.Client.Find(article.Id);
+                var original = db.Article.Find(article.Id);
 
                 if (original != null)
                 {

@@ -1,41 +1,81 @@
-﻿using DAL.Entities;
-using Effort.Provider;
+﻿using BS.BusinessServices;
+using DAL.Domaine;
+using DAL.Entities;
+using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using TO;
 
 namespace BS.Test
 {
     [TestFixture]
     public class SuccessTests
     {
+        //private BusinnessServiceCRM bs;
 
         [SetUp]
         public void Setup()
         {
-            EffortProviderConfiguration.RegisterProvider();
+           
         }
 
-        private modelEntities1 CreateContext()
-        {
-            //var connectionString = ConfigurationManager.ConnectionStrings["Entities"].ConnectionString;
-            //var connection = Effort.EntityConnectionFactory.CreateTransient(connectionString);
-            //return new Entities(connection as DbConnection);
+       
 
-            var connection = Effort.EntityConnectionFactory.CreatePersistent("name=modelEntities1");
-            var context = new modelEntities1(connection);
-            return context;
+        [Test]
+        public void CreateArticle()
+        {
+            var bs = BusinessService.Instance;
+
+            var a = bs.Article.GetArticleById(1);
+
+            Assert.AreEqual(a.Nom,"Lunettes");
         }
 
         [Test]
-        public void Testing_Entity_Effort()
+        public void CreateArticle_MOQ()
         {
-            using (var context = CreateContext())
+            // moq domainearticle
+            var MockDomaineArticle = new Mock<IDomaineArticle>();
+            //initmoq
+            MockDomaineArticle.Setup(x => x.GetArticleById(It.IsAny<int>())).Returns(new Article
             {
-                var article = context.Article.First();
-                Assert.IsNotNull(article);
-            }
-            
+                Nom = "poisson en plastique",
+                Prix = 10,
+                Stock = 10
+            });
+
+
+            // comment le BS peut il utiliser ce mock ???
+            var bs = BusinessService.Instance;
+            bs.DomaineArticle = MockDomaineArticle.Object;
+
+            var a = bs.Article.GetArticleById(1);
+
+            Assert.AreEqual(a.Nom, "poisson en plastique");
+        }
+
+        [Test]
+        public void CreateArticletest_MOQ()
+        {
+            // moq domainearticle
+            var MockDomaineArticle = new Mock<IDomaineArticle>();
+            //initmoq
+            MockDomaineArticle.Setup(x => x.GetArticleById(It.IsAny<int>())).Returns(new Article
+            {
+                Nom = "poisson en plastique",
+                Prix = 10,
+                Stock = 10
+            });
+
+
+            // comment le BS peut il utiliser ce mock ???
+            var bs = BusinessService.Instance;
+            bs.DomaineArticle = MockDomaineArticle.Object;
+
+            var a = bs.Article.GetArticleById_testMoq(1);
+
+            Assert.AreEqual(a.Nom, "nouveau nom!");
         }
     }
     
